@@ -1,0 +1,159 @@
+* {
+    margin: 0;
+    padding: 0;
+  }
+  
+  html,
+  css {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .position {
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 15%;
+  }
+  
+  #workarea {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color:#1e1a3e;
+    font-family: Raleway;
+  }
+  
+  .svg-wrapper {
+    margin-top: 0;
+    position: relative;
+    left: 40%;
+    top: 25px;
+    width: 150px;
+    display: inline-block;
+    border-radius: 3px;
+    margin-left: 5px;
+    margin-right: 5px;
+    font-family: Raleway;
+  }
+
+  .button1 {
+    position: absolute;
+    left: -45px;
+    top: 6px;
+    text-align: center;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
+    background-color: Transparent;
+    font-family: Raleway;
+    font-size: 15pt;
+  }
+
+  .button2 {
+    position: absolute;
+    left: 30px;
+    top: 6px;
+    text-align: center;
+    background-color: Transparent;
+    background-repeat:no-repeat;
+    border: none;
+    cursor:pointer;
+    overflow: hidden;
+    outline:none;
+    color: white;
+    background-color: Transparent;
+    font-family: Raleway;
+    font-size: 15pt;
+  }
+  /*
+      This is the outer svg wrapper that the SVG itself will 
+      fill. Multiple svg-wrapper classes can be put side by side.
+  */
+  
+
+  /*
+    This is where we define the fill, color, thickness,
+    and stroke pattern of the SVG when there is no hover.
+    The dasharray and offset together define the line position
+    under the words. Here's also where the transition speed is set.
+  */
+  
+  #shape {
+    stroke-width: 6px;
+    fill: Transparent;
+    stroke: #009FFD;
+    stroke-dasharray: 85 400;
+    stroke-dashoffset: -220;
+    transition: 1s all ease;
+  }
+  /* 
+      Pushing the text up into the SVG. Without this the
+      text would be below the div's.
+  */
+  
+  #normal_text {
+    margin-top: 0px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 100;
+    font-size: 20px;
+  }
+  
+  #title {
+    margin-top: 0px;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-weight: 100;
+    font-size: 35px;
+  }
+  /* 
+      Changing the shape on hover. I change the color of the stroke,
+  make it thinner, then set it to again wrap around the entire parent element.
+  */
+  
+  .svg-wrapper:hover #shape {
+    stroke-dasharray: 50 0;
+    stroke-width: 3px;
+    stroke-dashoffset: 0;
+    stroke: #06D6A0;
+  }
+
+  /* define relevant variables */
+  :root {
+      --bg-color: #009FFD;
+      --muted-color: rgba(1, 9, 14, 0.486);
+      --text-color: rgb(0, 0, 0);
+  }
+
+  .input-text {
+      content: "";
+    width: 200px;
+    height: 25px;
+    background-color: var(--muted-color);
+    border-color: var(--muted-color);
+    border-style: none;
+    font-family: Raleway;
+    color: var(--text-color);
+    height: 20px;
+    border-radius: 2px;
+    background-image: radial-gradient(circle at 0% 0%, #373b52, #252736 51%, #1d1e26);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    background-position: 0% 0%;
+    background: linear-gradient(to right, #B294FF, #57E6E6, #FEFFB8, #57E6E6, #B294FF, #57E6E6);
+    background-size: 500% auto;
+    animation: gradient 3s linear infinite;
+
+  }
+
+  .input-text input {
+        flex-grow: 1;
+        font-size: 20px;
+  }
