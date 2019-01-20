@@ -1,27 +1,51 @@
 <!DOCTYPE html>
-  <html>
-    <head>
-      <style>
-        button {
-          height: 30px;
-          width: 30px;
-          outline: none;
-        }
-      </style>
-      <script src="jquery-3.3.1.js"></script>
-      <script src="options.js"></script>
-      
-    </head>
-    <body>
-      <h2>SALT Time Manager</h2>
+<html>
+<div id="workarea">
+
+  <head>
+    <script src="jquery-3.3.1.js"></script>
+    <script src="options.js"></script>
+    <link rel="stylesheet" href="options.css">
+  </head>
+
+  <!-- 
+    Title, subtitles, and text inputs
+-->
+
+  <body>
+    <div id="normal_text">
+      <div id="title">SALT Time Manager
+      </div>
       <h5>Current Allocated Time: <span id="timeAllocated">17</span></h3>
-      <h5>Time Till Total Unusability: <span id="timeUnusable">5</span></h5>
-      <br>Change Allocated Time<br>
-      <input type="text" value="Change time allocated" id="amount"/>
-      <br><br>Change Unusable Time<br>
-      <input type="text" value="Change Time till unusable" id="unusableAmount"/>
-      <br>
-      <input type="submit" id="timeAmount" value="Allocate">
-      <input type="reset" id="reset" value="Reset Values">
-    </body>
-  </html>
+        <h5>Time Till Total Unusability: <span id="timeUnusable">5</span></h5>
+        <br>Change Allocated Time<br>
+        <input type="text" value="Change time allocated" id="amount" class="input-text"/>
+        
+        <br><br>Change Unusable Time<br>
+        <input type="text" value="Change Time till unusable" id="unusableAmount" class="input-text" />
+        <br>
+    </div>
+
+
+    <!-- 
+    Buttons
+-->
+
+    <div class="svg-wrapper">
+      <h5><input type=" submit" id="timeAmount" value="Allocate" class="button1" /></h5>
+      <svg height="40" width="150">
+        <rect id="shape" height="40" width="150" />
+    </div>
+
+
+    <div class="svg-wrapper">
+      <h5><input type="reset" id="reset" value="Reset Values" class="button2" /></h5>
+      <svg height="40" width="150">
+        <rect id="shape" height="40" width="150" />
+    </div>
+
+</div>
+</body>
+
+
+</html>
