@@ -7,13 +7,10 @@
       "persistent": false
     },
     "permissions": [
-                    "storage",
-                    "activeTab",
-                    "debugger",
-                    "tabs",
-                    "alarms"],
+                    "storage"],
     "browser_action":{
-      "default_popup": "popup.html"
+      "default_popup": "popup.html",
+      "default_icon" : "salt.png"
     },
     "options_page": "options.html",
     "manifest_version": 2
