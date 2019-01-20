@@ -45,6 +45,18 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
                 var tab = tabs[0];
                 var url = new URL(tab.url);
                 var domain = url.hostname;
+                if (isOn==false){
+                    chrome.alarms.clear("saltyTimer");
+                    var debuggeeId = { tabId: tab.id};
+                    chrome.debugger.sendCommand(debuggeeId, 'Network.emulateNetworkConditions', {
+                        offline: 0,
+                        latency: 2,
+                        downloadThroughput: 30 * 1024 * 1024,
+                        uploadThroughput: 15 * 1024 * 1024
+                    });
+                    chrome.storage.sync.set({'saltLatency': 2, 'saltDownloadThroughput':30 * 1024 * 1024, 'saltUploadThroughput': 15 * 1024 * 1024}, function(){});
+                    return;
+                }
                 if (['www.youtube.com','www.reddit.com','www.twitter.com','www.facebook.com'].indexOf(domain) >=0){
                     initializeTimer();
                 } else {
@@ -72,12 +84,6 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
     })
 });
 
-function calculateNetworkDecay(total_minutes){
-    
-
-}
-
-
 
 function initializeTimer(){
     chrome.storage.sync.get(['saltyTimerAllocated','saltyTimeUnsable'],function(timer) {
@@ -89,6 +95,7 @@ function initializeTimer(){
             }
             chrome.alarms.create("saltyTimer",{"delayInMinutes":timer.saltyTimerAllocated,
                                            "periodInMinutes":0.5});
+            alert("timer start");
         });
         
     });
