@@ -11,12 +11,21 @@ chrome.alarms.onAlarm.addListener(function(alarm){
             var debuggeeId = { tabId: tab.id};
             chrome.storage.sync.get(['saltLatency','saltDownloadThroughput','saltUploadThroughput','saltyTimeUnusable'], function(saltNetworkConditions){
                 networkSpeedDecay = Math.pow((0.1/30),1/(parseInt(saltNetworkConditions.saltyTimeUnusable*2)));
+                chrome.storage.sync.get('saltTabs', function(tabs){
+                    if (tabs.saltTabs){
+                        tabs.saltTabs.push(tab.id);
+                        chrome.storage.sync.set({'saltTabs': tabs.saltTabs});
+                    }else{
+                        chrome.storage.sync.set({'saltTabs': [tab.id]});
+                    }
+                });
                 chrome.debugger.sendCommand(debuggeeId, 'Network.emulateNetworkConditions', {
                     offline: 0,
                     latency: saltNetworkConditions.saltLatency/networkSpeedDecay,
                     downloadThroughput: saltNetworkConditions.saltDownloadThroughput*networkSpeedDecay,
                     uploadThroughput: saltNetworkConditions.saltUploadThroughput*networkSpeedDecay
                 });
+                alert("speed reduced")
             });
         });
     }
@@ -37,11 +46,10 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
                 var url = new URL(tab.url);
                 var domain = url.hostname;
                 if (['www.youtube.com','www.reddit.com','www.twitter.com','www.facebook.com'].indexOf(domain) >=0){
-                    initializeTimer();x 
+                    initializeTimer();
                 } else {
                     chrome.alarms.clear("saltyTimer");
                     var debuggeeId = { tabId: tab.id};
-                    alert(tab.URL);
                     chrome.debugger.sendCommand(debuggeeId, 'Network.emulateNetworkConditions', {
                         offline: 0,
                         latency: 2,
@@ -51,6 +59,14 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
                     chrome.storage.sync.set({'saltLatency': 2, 'saltDownloadThroughput':30 * 1024 * 1024, 'saltUploadThroughput': 15 * 1024 * 1024}, function(){});
                 }
                 // `domain` now has a value like 'example.com'
+            })
+        }
+        if (changeInfo.discarded){
+            chrome.storage.sync.get('saltTabs',function(tabs){
+                if (tabs.saltTabs.indexOf(tabId)>=0){
+                    delete tabs.saltTabs[tabs.saltTabs.indexOf(tabId)];
+                    chrome.storage.sync.set({'saltTabs':tabs.saltTabs});
+                }
             })
         }
     })
@@ -73,7 +89,6 @@ function initializeTimer(){
             }
             chrome.alarms.create("saltyTimer",{"delayInMinutes":timer.saltyTimerAllocated,
                                            "periodInMinutes":0.5});
-            alert("timer start");
         });
         
     });
