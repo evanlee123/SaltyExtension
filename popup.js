@@ -1,4 +1,5 @@
 $(function(){
+    chrome.storage.sync.set({'status': "On"});
     chrome.storage.sync.get('status',function(activation){
         $('#stat').text(activation.status)
     })
@@ -9,7 +10,6 @@ $(function(){
             if (activation.status=="On"){
                 isOn = "Off"
             }
-            
             chrome.storage.sync.set({'status': isOn });
             $('#stat').text(isOn);
         })

@@ -5,7 +5,7 @@ chrome.runtime.onInstalled.addListener(function(){
 });
 
 chrome.alarms.onAlarm.addListener(function(alarm){
-    if (alarm.name == "SaltyTimer"){
+    if (alarm.name == "saltyTimer"){
         chrome.tabs.query({ active: true, currentWindow: true }, function (tabs){
             var tab = tabs[0];
             var debuggeeId = { tabId: tab.id};
@@ -25,14 +25,14 @@ chrome.alarms.onAlarm.addListener(function(alarm){
                     downloadThroughput: saltNetworkConditions.saltDownloadThroughput*networkSpeedDecay,
                     uploadThroughput: saltNetworkConditions.saltUploadThroughput*networkSpeedDecay
                 });
-                alert("speed reduced")
+             
+                chrome.storage.sync.set({'saltLatency':saltNetworkConditions.saltLatency/networkSpeedDecay,
+                'saltDownloadThroughput':saltNetworkConditions.saltDownloadThroughput*networkSpeedDecay,
+                'saltUploadThroughput':saltNetworkConditions.saltUploadThroughput*networkSpeedDecay});
             });
         });
     }
 });
-
-
-
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
     chrome.storage.sync.get('status',function(stat){
@@ -87,15 +87,13 @@ chrome.tabs.onUpdated.addListener(function(tabId, changeInfo){
 
 function initializeTimer(){
     chrome.storage.sync.get(['saltyTimerAllocated','saltyTimeUnsable'],function(timer) {
-        chrome.alarms.getAll(function(allAlarms){
-            for (alarm in allAlarms){
-                if (alarm.name=="saltyTimer"){
-                    return;
-                }
+        chrome.alarms.get("saltyTimer", function(allAlarms){
+            if (allAlarms){
+                return;
             }
             chrome.alarms.create("saltyTimer",{"delayInMinutes":timer.saltyTimerAllocated,
                                            "periodInMinutes":0.5});
-            alert("timer start");
+            
         });
         
     });
